@@ -439,6 +439,20 @@ pub trait SignatureVerificationAlgorithm: Send + Sync + fmt::Debug {
     fn fips(&self) -> bool {
         false
     }
+
+    /// Is this an algorithm that is actually for AuthKEM?
+    fn authkem(&self) -> bool {
+        // default algorithms don't support this (they're all signatures)
+        false
+    }
+
+    /// Encapsulate
+    /// Returns (ct, ss)
+    fn encapsulate(&self, public_key: &[u8], context_info: &[u8]) -> Result<(Vec<u8>, Vec<u8>), InvalidSignature> {
+        let _ = public_key;
+        let _ = context_info;
+        panic!("Not supported by default!")
+    }
 }
 
 /// A detail-less error when a signature is not valid.
